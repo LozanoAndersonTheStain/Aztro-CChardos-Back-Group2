@@ -1,3 +1,4 @@
+using aztro_cchardos_back_group2.Application.Mappings;
 using aztro_cchardos_back_group2.Infrastructure.Data;
 using aztro_cchardos_back_group2.Infrastructure.Data.Configs;
 using Microsoft.EntityFrameworkCore; //* Importa el espacio de nombres que contiene DbConfig
@@ -13,6 +14,9 @@ if (dbConfig.ValidateConnection(out string message)) //* Valida la conexión a l
     Console.WriteLine("Connection string is invalid", message); //* Imprime un mensaje de error si la conexión falla
 }
 
+//* Habilita la autorización
+builder.Services.AddAuthorization();
+
 //* Add services to the container.
 builder.Services.AddControllers(); //* Agrega los controladores al contenedor de servicios
 
@@ -20,6 +24,9 @@ builder.Services.AddControllers(); //* Agrega los controladores al contenedor de
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(dbConfig.ConnectionString));
 builder.Services.AddOpenApi();
+
+//* Registrar AutoMapper
+builder.Services.AddAutoMapper(typeof(UserProfile));
 
 //* Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(); //* Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
