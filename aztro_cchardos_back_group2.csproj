@@ -11,13 +11,17 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <!-- * Dependencia para manejar variables de entorno -->
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
-    <!-- * Dependencia para manejar el CORS -->
+    <!-- * Dependencia para la autenticación JWT en ASP.NET Core -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
+    <!-- * Dependencia para manejar el CORS en ASP.NET Core -->
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <!-- * Dependencia para manejar el Entity Framework Core -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
     <!-- * Dependencia para manejar el Entity Framework Core con PostgreSQL -->
     <PackageReference Include="Npgsql" Version="9.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <!-- * Dependencia para manejar tokens JWT -->
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />
   </ItemGroup>
 
 </Project>
