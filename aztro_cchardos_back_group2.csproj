@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- * Dependencia para inyectar AutoMapper en el contenedor de servicios de ASP.NET Core -->
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <!-- * Dependencia para manejar variables de entorno -->
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <!-- * Dependencia para manejar el CORS -->
