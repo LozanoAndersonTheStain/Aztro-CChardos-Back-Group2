@@ -1,0 +1,6 @@
+@aztro_cchardos_back_group2_HostAddress = http://localhost:5076
+
+GET {{aztro_cchardos_back_group2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
