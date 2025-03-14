@@ -17,6 +17,11 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <!-- * Dependencia para manejar el Entity Framework Core -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <!-- * Dependencia para manejar el Entity Framework Core con herramientas de diseño -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <!-- * Dependencia para manejar el Entity Framework Core con PostgreSQL -->
     <PackageReference Include="Npgsql" Version="9.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
