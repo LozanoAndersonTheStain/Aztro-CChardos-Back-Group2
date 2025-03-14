@@ -1,6 +1,9 @@
 using aztro_cchardos_back_group2.Application.Mappings;
+using aztro_cchardos_back_group2.Application.Services;
+using aztro_cchardos_back_group2.Domain.Interfaces;
 using aztro_cchardos_back_group2.Infrastructure.Data;
 using aztro_cchardos_back_group2.Infrastructure.Data.Configs;
+using aztro_cchardos_back_group2.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore; //* Importa el espacio de nombres que contiene DbConfig
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +30,10 @@ builder.Services.AddOpenApi();
 
 //* Registrar AutoMapper
 builder.Services.AddAutoMapper(typeof(UserProfile));
+
+//* Registrar servicios
+builder.Services.AddScoped<IUserService, UserService>(); //* Registra la implementación de IUserService
+builder.Services.AddScoped<IUserRepository, UserRepository>(); //* Registra la implementación de IUserRepository
 
 //* Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(); //* Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
