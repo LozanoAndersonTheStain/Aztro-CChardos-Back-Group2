@@ -1,4 +1,6 @@
-using aztro_cchardos_back_group2.Infrastructure.Data.Configs; //* Importa el espacio de nombres que contiene DbConfig
+using aztro_cchardos_back_group2.Infrastructure.Data;
+using aztro_cchardos_back_group2.Infrastructure.Data.Configs;
+using Microsoft.EntityFrameworkCore; //* Importa el espacio de nombres que contiene DbConfig
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,24 +13,30 @@ if (dbConfig.ValidateConnection(out string message)) //* Valida la conexión a l
     Console.WriteLine("Connection string is invalid", message); //* Imprime un mensaje de error si la conexión falla
 }
 
-// Add services to the container.
-builder.Services.AddControllers(); // Agrega los controladores al contenedor de servicios
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi(); // Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
+//* Add services to the container.
+builder.Services.AddControllers(); //* Agrega los controladores al contenedor de servicios
 
-var app = builder.Build(); // Construye la aplicación web
+//* Registrar DbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(dbConfig.ConnectionString));
+builder.Services.AddOpenApi();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) // Si el entorno es de desarrollo
+//* Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi(); //* Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
+
+var app = builder.Build(); //* Construye la aplicación web
+
+//* Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment()) //* Si el entorno es de desarrollo
 {
-    app.MapOpenApi(); // Configura OpenAPI (Swagger) para el entorno de desarrollo
+    app.MapOpenApi(); //* Configura OpenAPI (Swagger) para el entorno de desarrollo
 }
 
-// Comment out or remove the following line to disable HTTPS redirection
-// app.UseHttpsRedirection(); // Redirige las solicitudes HTTP a HTTPS
+//* Comment out or remove the following line to disable HTTPS redirection
+//* app.UseHttpsRedirection(); // Redirige las solicitudes HTTP a HTTPS
 
-app.UseAuthorization(); // Habilita la autorización
+app.UseAuthorization(); //* Habilita la autorización
 
-app.MapControllers(); // Mapea los controladores a las rutas
+app.MapControllers(); //* Mapea los controladores a las rutas
 
-app.Run(); // Ejecuta la aplicación
+app.Run(); //* Ejecuta la aplicación
