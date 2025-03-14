@@ -3,6 +3,7 @@ using aztro_cchardos_back_group2.Application.Services;
 using aztro_cchardos_back_group2.Domain.Interfaces;
 using aztro_cchardos_back_group2.Infrastructure.Data;
 using aztro_cchardos_back_group2.Infrastructure.Data.Configs;
+using aztro_cchardos_back_group2.Infrastructure.Middlewares;
 using aztro_cchardos_back_group2.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore; //* Importa el espacio de nombres que contiene DbConfig
 
@@ -45,6 +46,8 @@ if (app.Environment.IsDevelopment()) //* Si el entorno es de desarrollo
 {
     app.MapOpenApi(); //* Configura OpenAPI (Swagger) para el entorno de desarrollo
 }
+
+app.UseMiddleware<RoleAuthorizationMiddleware>(); //* Habilita el middleware de autorización de roles
 
 //* Comment out or remove the following line to disable HTTPS redirection
 //* app.UseHttpsRedirection(); // Redirige las solicitudes HTTP a HTTPS
