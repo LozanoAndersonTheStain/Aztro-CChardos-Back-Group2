@@ -8,7 +8,7 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
         Task<UserEntity> CreateUserAsync(UserEntity user);
 
         //* Metodo para obtener un usuario por id
-        Task<UserEntity?> GetUserByIdAsync(int id);
+        Task<UserEntity> GetUserByIdAsync(int id);
 
         //* Metodo para obtener todos los usuarios
         Task<List<UserEntity>> GetAllUsersAsync();
@@ -17,7 +17,7 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
         Task<UserEntity?> GetUserByEmailAsync(string email);
 
         //* Metodo para obtener los usuarios paginados
-        Task<List<UserEntity>> GetUserPaginatedAsync(int page, int pageSize);
+        Task<List<UserEntity>> GetUsersPaginatedAsync(int page, int pageSize);
 
         //* Metodo para actualizar un usuario
         Task<UserEntity> UpdateUserAsync(int id, UserEntity user);
