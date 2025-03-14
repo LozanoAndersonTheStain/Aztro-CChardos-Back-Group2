@@ -1,11 +1,15 @@
+using System.Text;
 using aztro_cchardos_back_group2.Application.Mappings;
 using aztro_cchardos_back_group2.Application.Services;
+using aztro_cchardos_back_group2.Data.Config;
 using aztro_cchardos_back_group2.Domain.Interfaces;
 using aztro_cchardos_back_group2.Infrastructure.Data;
 using aztro_cchardos_back_group2.Infrastructure.Data.Configs;
 using aztro_cchardos_back_group2.Infrastructure.Middlewares;
 using aztro_cchardos_back_group2.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore; //* Importa el espacio de nombres que contiene DbConfig
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,38 @@ if (dbConfig.ValidateConnection(out string message)) //* Valida la conexión a l
 } else {
     Console.WriteLine("Connection string is invalid", message); //* Imprime un mensaje de error si la conexión falla
 }
+
+//* Configuracion de JWT Authentication
+var jwtConfig = new JwtConfig();
+
+//* Valida que las variables de entorno JWT_KEY, JWT_ISSUER y JWT_AUDIENCE no estén vacías
+if (string.IsNullOrEmpty(jwtConfig.Key) || string.IsNullOrEmpty(jwtConfig.Issuer) || string.IsNullOrEmpty(jwtConfig.Audience))
+{
+    throw new ArgumentException("JWT configuration is missing.");
+}
+
+//* Convierte la clave JWT en un arreglo de bytes
+var key = Encoding.ASCII.GetBytes(jwtConfig.Key);
+
+//* Configura la autenticación JWT
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; // * Establece el esquema de autenticación predeterminado
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; // * Establece el esquema de desafío predeterminado
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters // * Configura los parámetros de validación del token
+    {
+        ValidateIssuer = true, // * Valida el emisor del token
+        ValidateAudience = true, // * Valida el emisor y la audiencia del token
+        ValidateLifetime = true, // * Valida la vigencia del token
+        ValidateIssuerSigningKey = true, // * Valida la clave del emisor del token
+        ValidIssuer = jwtConfig.Issuer, // * Establece el emisor válido del token
+        ValidAudience = jwtConfig.Audience, // * Establece la audiencia válida del token
+        IssuerSigningKey = new SymmetricSecurityKey(key) // * Establece la clave de firma del token
+    };
+});
 
 //* Habilita la autorización
 builder.Services.AddAuthorization();
@@ -35,6 +71,7 @@ builder.Services.AddAutoMapper(typeof(UserProfile));
 //* Registrar servicios
 builder.Services.AddScoped<IUserService, UserService>(); //* Registra la implementación de IUserService
 builder.Services.AddScoped<IUserRepository, UserRepository>(); //* Registra la implementación de IUserRepository
+builder.Services.AddScoped<TokenService>(); //* Registra la implementación de TokenService
 
 //* Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(); //* Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
