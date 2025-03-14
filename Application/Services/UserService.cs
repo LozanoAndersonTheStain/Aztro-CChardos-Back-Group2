@@ -1,0 +1,87 @@
+using AutoMapper;
+using aztro_cchardos_back_group2.Application.DTOs.Requests;
+using aztro_cchardos_back_group2.Application.DTOs.Responses;
+using aztro_cchardos_back_group2.Domain.Entities;
+using aztro_cchardos_back_group2.Domain.Interfaces;
+
+namespace aztro_cchardos_back_group2.Application.Services
+{
+    public class UserService(IUserRepository userRepository, IMapper mapper) : IUserService
+    {
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IMapper _mapper = mapper;
+
+        public async Task<UserResponse> CreateUserAsync(UserRequest userRequest)
+        {
+            var user = _mapper.Map<UserEntity>(userRequest); //* Mapea el UserRequest a UserEntity
+            var createdUser = await _userRepository.CreateUserAsync(user) ?? throw new Exception("User not created"); //* Crea el usuario o lanza una excepción si no se crea el usuario
+            var response = _mapper.Map<UserResponse>(createdUser); //* Mapea el usuario creado a UserResponse
+            response.Success = true; //* Establece la propiedad Success en true
+            return response;
+        }
+
+        public async Task<UserResponse> RegisterUserAsync(UserRequest userRequest)
+        {
+            var existingUser = await _userRepository.GetUserByEmailAsync(userRequest.Email); //* Obtiene el usuario por email
+            if (existingUser != null) throw new Exception("User already exists"); //* Verifica si el usuario ya existe
+
+            var user = _mapper.Map<UserEntity>(userRequest); //* Mapea el UserRequest a UserEntity
+            var createdUser = await _userRepository.CreateUserAsync(user) ?? throw new Exception("User not created"); //* Crea el usuario o lanza una excepción si no se crea el usuario
+            var response = _mapper.Map<UserResponse>(createdUser); //* Mapea el usuario creado a UserResponse
+            response.Success = true; //* Establece la propiedad Success en true
+            return response; //* Retorna el usuario creado
+        }
+
+        public async Task<UserResponse> LoginUserAsync(string email, string password)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email) ?? throw new Exception("User not found"); //* Obtiene el usuario por email o lanza una excepción si no se encuentra el usuario
+            if (user.Password != password) throw new Exception("Invalid password"); //* Verifica la contraseña del usuario
+            var response = _mapper.Map<UserResponse>(user); //* Mapea el usuario a UserResponse
+            response.Success = true; //* Establece la propiedad Success en true
+            return response;
+        }
+
+        public async Task<UserResponse> GetUserByIdAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id) ?? throw new Exception("User by id not found"); //* Obtiene el usuario por id o lanza una excepción si no se encuentra el usuario
+            return _mapper.Map<UserResponse>(user); //* Mapea el usuario a UserResponse
+        }
+
+        public async Task<List<UserResponse>> GetAllUsersAsync()
+        {
+            var users = await _userRepository.GetAllUsersAsync() ?? throw new Exception("Users not found"); //* Obtiene todos los usuarios o lanza una excepción si no se encuentran usuarios
+            return _mapper.Map<List<UserResponse>>(users); //* Mapea los usuarios a UserResponse
+        }
+
+        public async Task<UserResponse> GetUserByEmailAsync(string email)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email) ?? throw new Exception("User by email not found"); //* Obtiene el usuraio por email o lanza una excepción si no se encuentra usuario
+            return _mapper.Map<UserResponse>(user);
+        }
+
+        public async Task<List<UserResponse>> GetUserPaginatedAsync(int page, int pageSize)
+        {
+            var users = await _userRepository.GetUsersPaginatedAsync(page, pageSize) ?? throw new Exception("Users not found"); //* Obtiene los usuarios paginados o lanza una excepción si no se encuentran usuarios
+            return _mapper.Map<List<UserResponse>>(users); //* Mapea los usuarios a UserResponse
+        }
+
+        public async Task<UserResponse> UpdateUserAsync(int id, UserRequest userRequest)
+        {
+            var user = _mapper.Map<UserEntity>(userRequest); //* Mapea el UserRequest a UserEntity
+            var updatedUser = await _userRepository.UpdateUserAsync(id, user) ?? throw new Exception("User not updated"); //* Actualiza el usuario o lanza una excepción si no se actualiza el usuario
+            var response = _mapper.Map<UserResponse>(updatedUser); //* Mapea el usuario actualizado a UserResponse
+            response.Success = true; //* Establece la propiedad Success en true
+            return response;
+        }
+
+        public async Task<UserResponse> DeleteUserAsync(int id)
+        {
+            var deleted = await _userRepository.DeleteUserAsync(id); //* Elimina el usuario
+            if (!deleted) 
+            {
+                throw new Exception("User not deleted"); //* Lanza una excepción si no se elimina el usuario
+            }
+            return new UserResponse { Success = true }; //* Retorna true si se elimina el usuario
+        }
+    }
+}
