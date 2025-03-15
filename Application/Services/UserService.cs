@@ -45,7 +45,17 @@ namespace aztro_cchardos_back_group2.Application.Services
 
         public async Task<UserResponse> GetUserByIdAsync(int id)
         {
-            var user = await _userRepository.GetUserByIdAsync(id) ?? throw new Exception("User by id not found"); //* Obtiene el usuario por id o lanza una excepción si no se encuentra el usuario
+            Console.WriteLine($"Searching for user with ID: {id}"); //* Imprime el ID del usuario
+            
+            var user = await _userRepository.GetUserByIdAsync(id); //* Obtiene el usuario por ID
+            
+            if (user == null) //* Verifica si el usuario no existe
+            {
+                Console.WriteLine("User not found in database"); //* Imprime que el usuario no se encuentra en la base de datos
+                throw new Exception("User not found"); //* Lanza una excepción
+            }
+            
+            Console.WriteLine($"User found: {user.Name} (ID: {user.Id})"); //* Imprime el nombre y el ID del usuario
             return _mapper.Map<UserResponse>(user); //* Mapea el usuario a UserResponse
         }
 
@@ -61,10 +71,18 @@ namespace aztro_cchardos_back_group2.Application.Services
             return _mapper.Map<UserResponse>(user);
         }
 
-        public async Task<List<UserResponse>> GetUserPaginatedAsync(int page, int pageSize)
+        public async Task<List<UserResponse>> GetUsersPaginatedAsync(int page, int pageSize)
         {
-            var users = await _userRepository.GetUsersPaginatedAsync(page, pageSize) ?? throw new Exception("Users not found"); //* Obtiene los usuarios paginados o lanza una excepción si no se encuentran usuarios
-            return _mapper.Map<List<UserResponse>>(users); //* Mapea los usuarios a UserResponse
+            try
+            {
+                var users = await _userRepository.GetUsersPaginatedAsync(page, pageSize); //* Obtiene los usuarios paginados
+                return _mapper.Map<List<UserResponse>>(users); //* Mapea los usuarios a UserResponse
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in pagination: {ex.Message}"); //* Imprime el error
+                throw;
+            }
         }
 
         public async Task<UserResponse> UpdateUserAsync(int id, UserRequest userRequest)
