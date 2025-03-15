@@ -89,6 +89,7 @@ app.UseMiddleware<RoleAuthorizationMiddleware>(); //* Habilita el middleware de 
 //* Comment out or remove the following line to disable HTTPS redirection
 //* app.UseHttpsRedirection(); // Redirige las solicitudes HTTP a HTTPS
 
+app.UseAuthentication(); //* Habilita la autenticación
 app.UseAuthorization(); //* Habilita la autorización
 
 app.MapControllers(); //* Mapea los controladores a las rutas
