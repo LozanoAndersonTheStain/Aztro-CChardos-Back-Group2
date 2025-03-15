@@ -15,10 +15,9 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories{
             return user;
         }
 
-        public async Task<UserEntity> GetUserByIdAsync(int id)
+        public async Task<UserEntity?> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id) ?? throw new Exception("User not found");
-            return user;
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id) ?? throw new Exception("User not found");
         }
 
         public async Task<List<UserEntity>> GetAllUsersAsync()
@@ -35,7 +34,20 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories{
 
         public async Task<List<UserEntity>> GetUsersPaginatedAsync(int page, int pageSize)
         {
-            var users = await _context.Users.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync() ?? throw new Exception("Users not found");
+            if (page < 1) throw new ArgumentException("Page must be greater than 0");
+            if (pageSize < 1) throw new ArgumentException("Page size must be greater than 0");
+
+            var query = _context.Users
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+
+            var users = await query.ToListAsync();
+            
+            if (users.Count == 0)
+            {
+                throw new Exception($"No users found for page {page} with size {pageSize}");
+            }
+
             return users;
         }
 

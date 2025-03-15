@@ -8,7 +8,7 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
         Task<UserEntity> CreateUserAsync(UserEntity user);
 
         //* Metodo para obtener un usuario por id
-        Task<UserEntity> GetUserByIdAsync(int id);
+        Task<UserEntity?> GetUserByIdAsync(int id);
 
         //* Metodo para obtener todos los usuarios
         Task<List<UserEntity>> GetAllUsersAsync();
