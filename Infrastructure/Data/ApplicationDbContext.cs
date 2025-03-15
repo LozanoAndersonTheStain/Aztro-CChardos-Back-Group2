@@ -12,10 +12,10 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserEntity>()
-                .HasKey(u => u.Email);
+                .HasKey(u => u.Id);
 
             modelBuilder.Entity<UserEntity>()
-                .HasIndex(u => u.Email)
+                .HasIndex(u => u.Id)
                 .IsUnique();
         }
     }
