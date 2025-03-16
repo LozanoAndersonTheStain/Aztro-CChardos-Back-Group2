@@ -1,0 +1,89 @@
+using aztro_cchardos_back_group2.Application.DTOs.Requests;
+using aztro_cchardos_back_group2.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace aztro_cchardos_back_group2.Presentation.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AnswerController(IAnswerService answerService) : ControllerBase
+    {
+        private readonly IAnswerService _answerService = answerService;
+
+        [HttpPost("createAnswer")]
+        [Authorize]
+        public async Task<IActionResult> CreateAnswer([FromBody] AnswerRequest request)
+        {
+            try
+            {
+                var response = await _answerService.CreateAnswerAsync(request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("getAnswerById/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetAnswerById(int id)
+        {
+            try
+            {
+                var response = await _answerService.GetAnswerByIdAsync(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("getUserAnswerId/{userId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAnswersByUserId(int userId)
+        {
+            try
+            {
+                var response = await _answerService.GetAnswersByUserIdAsync(userId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("getAnswerByQuestion/{questionId}")]
+        [Authorize]
+        public async Task<IActionResult> GetAnswersByQuestionId(int questionId)
+        {
+            try
+            {
+                var response = await _answerService.GetAnswersByQuestionIdAsync(questionId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("deleteAnswer/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteAnswer(int id)
+        {
+            try
+            {
+                var result = await _answerService.DeleteAnswerAsync(id);
+                return Ok(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+    }
+}
