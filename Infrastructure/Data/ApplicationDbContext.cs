@@ -9,6 +9,9 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
         public DbSet<QuestionEntity> Questions { get; set; }
         public DbSet<QuestionOptionEntity> QuestionOptions { get; set; }
         public DbSet<AnswerEntity> Answers { get; set; }
+        public DbSet<CityEntity> Cities { get; set; }
+        public DbSet<DestinationEntity> Destinations { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +31,18 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
                 .HasForeignKey(o => o.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            //* Configuración para Destination y sus relaciones
+            modelBuilder.Entity<DestinationEntity>()
+                .HasOne(d => d.FirstCity)
+                .WithMany(c => c.FirstCityDestinations)
+                .HasForeignKey(d => d.FirstCityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DestinationEntity>()
+                .HasOne(d => d.SecondCity)
+                .WithMany(c => c.SecondCityDestinations)
+                .HasForeignKey(d => d.SecondCityId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
