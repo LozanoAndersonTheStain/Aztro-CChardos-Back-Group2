@@ -33,6 +33,12 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
             return await _context.Cities.ToListAsync();
         }
 
+        public async Task<CityEntity?> GetCityByNameAsync(string name)
+        {
+            return await _context.Cities
+                .FirstOrDefaultAsync(c => c.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+        }
+
         public async Task<CityEntity> UpdateCityAsync(int id, CityEntity city)
         {
             var existingCity = await _context.Cities.FindAsync(id) 
