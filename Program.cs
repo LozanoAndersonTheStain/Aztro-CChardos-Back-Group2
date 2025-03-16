@@ -72,10 +72,12 @@ builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.AddScoped<IUserService, UserService>(); //* Registra la implementación de IUserService
 builder.Services.AddScoped<TokenService>(); //* Registra la implementación de TokenService
 builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<IQuestionOptionService, QuestionOptionService>();
 
 //* Registrar repositorios
 builder.Services.AddScoped<IUserRepository, UserRepository>(); //* Registra la implementación de IUserRepository
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<IQuestionOptionRepository, QuestionOptionRepository>();
 
 //* Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(); //* Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
