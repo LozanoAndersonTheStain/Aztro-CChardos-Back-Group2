@@ -7,6 +7,8 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
     {
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<QuestionEntity> Questions { get; set; }
+        public DbSet<QuestionOptionEntity> QuestionOptions { get; set; }
+        public DbSet<AnswerEntity> Answers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +27,7 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
                 .WithOne(o => o.Question)
                 .HasForeignKey(o => o.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }
