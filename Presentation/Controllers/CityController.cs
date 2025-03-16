@@ -46,7 +46,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
             }
         }
 
-        [HttpGet("gatCityById/{id}")]
+        [HttpGet("getCityById/{id}")]
         [Authorize]
         public async Task<IActionResult> GetCityById(int id)
         {

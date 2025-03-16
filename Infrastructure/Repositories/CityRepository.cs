@@ -36,7 +36,7 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
         public async Task<CityEntity?> GetCityByNameAsync(string name)
         {
             return await _context.Cities
-                .FirstOrDefaultAsync(c => c.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+                .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
         }
 
         public async Task<CityEntity> UpdateCityAsync(int id, CityEntity city)
