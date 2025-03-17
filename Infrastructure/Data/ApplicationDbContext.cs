@@ -5,12 +5,13 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
     {
-        public DbSet<UserEntity> Users { get; set; }
-        public DbSet<QuestionEntity> Questions { get; set; }
-        public DbSet<QuestionOptionEntity> QuestionOptions { get; set; }
-        public DbSet<AnswerEntity> Answers { get; set; }
-        public DbSet<CityEntity> Cities { get; set; }
-        public DbSet<DestinationEntity> Destinations { get; set; }
+        public DbSet<UserEntity> Users { get; set; } = null!;
+        public DbSet<QuestionEntity> Questions { get; set; } = null!;
+        public DbSet<QuestionOptionEntity> QuestionOptions { get; set; } = null!;
+        public DbSet<AnswerEntity> Answers { get; set; } = null!;
+        public DbSet<CityEntity> Cities { get; set; } = null!;
+        public DbSet<DestinationEntity> Destinations { get; set; } = null!;
+        public DbSet<CombinationEntity> Combinations { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
