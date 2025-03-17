@@ -7,9 +7,10 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AnswerController(IAnswerService answerService) : ControllerBase
+    public class AnswerController(IAnswerService answerService, ICombinationService combinationService) : ControllerBase
     {
         private readonly IAnswerService _answerService = answerService;
+        private readonly ICombinationService _combinationService = combinationService;
 
         [HttpPost("createAnswer")]
         [Authorize]
@@ -63,6 +64,21 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
             try
             {
                 var response = await _answerService.GetAnswersByQuestionIdAsync(questionId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("getMatchingDestinations")]
+        [Authorize]
+        public async Task<IActionResult> GetMatchingDestinations([FromBody] List<int> answerIds)
+        {
+            try
+            {
+                var response = await _combinationService.GetMatchingDestinationsAsync(answerIds);
                 return Ok(response);
             }
             catch (Exception ex)

@@ -8,6 +8,7 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
         Task<AnswerEntity?> GetAnswerByIdAsync(int id);
         Task<List<AnswerEntity>> GetAnswersByUserIdAsync(int userId);
         Task<List<AnswerEntity>> GetAnswersByQuestionIdAsync(int questionId);
+        Task<List<AnswerEntity>> GetAnswersByIdsAsync(List<int> answerIds);
         Task<bool> DeleteAnswerAsync(int id);
     }
 }

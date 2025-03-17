@@ -43,6 +43,14 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<AnswerEntity>> GetAnswersByIdsAsync(List<int> answerIds)
+        {
+            return await _context.Answers
+                .Include(a => a.Question)
+                .Where(a => answerIds.Contains(a.Id))
+                .ToListAsync();
+        }
+
         public async Task<bool> DeleteAnswerAsync(int id)
         {
             var answer = await _context.Answers.FindAsync(id) 
