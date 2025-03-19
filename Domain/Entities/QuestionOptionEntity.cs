@@ -24,6 +24,11 @@ namespace aztro_cchardos_back_group2.Domain.Entities
         [MaxLength(500)]
         public string Image { get; set; } = "";
 
+        [Column("fact")]
+        [Required]
+        [MaxLength(300)]
+        public string Fact { get; set; } = "";
+
         [ForeignKey("QuestionId")]
         public virtual QuestionEntity Question { get; set; } = null!;
 
