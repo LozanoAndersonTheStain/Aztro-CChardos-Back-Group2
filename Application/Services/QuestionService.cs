@@ -29,6 +29,12 @@ namespace aztro_cchardos_back_group2.Application.Services
             return response;
         }
 
+        public async Task<List<QuestionResponse>> CreateQuestionsByCategory(string category, List<QuestionRequest> questions)
+        {
+            questions.ForEach(q => q.Category = category);
+            return await CreateMultipleQuestionsAsync(questions);
+        }
+
         public async Task<QuestionResponse> GetQuestionByIdAsync(int id)
         {
             var question = await _questionRepository.GetQuestionByIdAsync(id) ?? throw new Exception("Question not found");
