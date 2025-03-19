@@ -34,7 +34,22 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
             {
                 var response = await _questionService.CreateMultipleQuestionsAsync(requests);
                 return Ok(response);
-            } 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("createQuestionsByCategory")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateQuestionsByCategory([FromQuery] string category, [FromBody] QuestionGroupRequest request)
+        {
+            try
+            {
+                var response = await _questionService.CreateQuestionsByCategory(category, request.Questions);
+                return Ok(response);
+            }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
