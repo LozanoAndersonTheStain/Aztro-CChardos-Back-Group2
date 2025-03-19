@@ -7,6 +7,7 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
     {
         Task<QuestionResponse> CreateQuestionAsync(QuestionRequest request);
         Task<List<QuestionResponse>> CreateMultipleQuestionsAsync(List<QuestionRequest> requests);
+        Task<List<QuestionResponse>> CreateQuestionsByCategory(string category, List<QuestionRequest> questions);
         Task<QuestionResponse> GetQuestionByIdAsync(int id);
         Task<List<QuestionResponse>> GetAllQuestionsAsync();
         Task<List<QuestionResponse>> GetQuestionsPaginatedAsync(int page, int pageSize);
