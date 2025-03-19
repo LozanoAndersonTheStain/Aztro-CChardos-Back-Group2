@@ -11,5 +11,9 @@ namespace aztro_cchardos_back_group2.Application.DTOs.Requests
         [Required]
         [MaxLength(500)]
         public string Image { get; set; } = "";
+
+        [Required]
+        [MaxLength(300)]
+        public string Fact { get; set; } = "";
     }
 }
