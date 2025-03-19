@@ -55,8 +55,12 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
                     .FirstOrDefaultAsync(q => q.Id == id) 
                     ?? throw new Exception("Question not found");
                 
+                // Update question type
+                existingQuestion.Category = question.Category;
                 // Update question text
                 existingQuestion.QuestionText = question.QuestionText;
+                // Update supplementary text
+                existingQuestion.SupplementaryText = question.SupplementaryText;
 
                 // Remove existing options
                 _context.QuestionOptions.RemoveRange(existingQuestion.Options);
