@@ -49,19 +49,17 @@ namespace aztro_cchardos_back_group2.Application.Services
             return _mapper.Map<List<CombinationResponse>>(combinations);
         }
 
-        public async Task<DestinationResponse> GetMatchingDestinationsAsync(List<int> answerIds)
+        public async Task<DestinationResponse> GetMatchingDestinationsAsync(List<int> optionIds)
         {
-            var answers = await _answerRepository.GetAnswersByIdsAsync(answerIds);
-            
-            if (answers.Count != 6)
+            if (optionIds.Count != 6)
                 throw new Exception("Must provide exactly 6 answers for matching");
 
-            var destinationOptionId = answers.First(a => a.Question.QuestionText.Contains("entorno prefieres")).QuestionOptionId;
-            var climateOptionId = answers.First(a => a.Question.QuestionText.Contains("clima prefieres")).QuestionOptionId;
-            var activityOptionId = answers.First(a => a.Question.QuestionText.Contains("actividades prefieres")).QuestionOptionId;
-            var accommodationOptionId = answers.First(a => a.Question.QuestionText.Contains("alojamiento prefieres")).QuestionOptionId;
-            var durationOptionId = answers.First(a => a.Question.QuestionText.Contains("tiempo planeas")).QuestionOptionId;
-            var ageOptionId = answers.First(a => a.Question.QuestionText.Contains("rango de edad")).QuestionOptionId;
+            var destinationOptionId = optionIds[0];
+            var climateOptionId = optionIds[1];
+            var activityOptionId = optionIds[2];
+            var accommodationOptionId = optionIds[3];
+            var durationOptionId = optionIds[4];
+            var ageOptionId = optionIds[5];
 
             var combination = await _combinationRepository.GetCombinationByOptionsAsync(
                 destinationOptionId,
