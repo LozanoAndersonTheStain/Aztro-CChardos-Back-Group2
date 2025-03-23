@@ -16,6 +16,10 @@ namespace aztro_cchardos_back_group2.Domain.Entities
 
         [Column("description")]
         [Required]
+        public string Description { get; set; } = "";
+
+        [Column("destination_name")]
+        [Required]
         public string DestinationName { get; set; } = "";
 
         [Column("image")]
