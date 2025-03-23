@@ -1,4 +1,4 @@
-namespace aztro_cchardos_back_group2.Application.DTOs.Responses;
+namespace aztro_cchardos_back_group2.Application.DTOs.Responses
 {
     public class TransportOptionResponse 
     {
