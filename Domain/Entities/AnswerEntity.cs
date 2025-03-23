@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace aztro_cchardos_back_group2.Domain.Entities
 {
-    [Table("answers")]
+    [Table("Answers")]
     public class AnswerEntity
     {
         [Key]

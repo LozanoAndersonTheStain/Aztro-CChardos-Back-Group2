@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace aztro_cchardos_back_group2.Domain.Entities
 {
+    [Table("Destinations")]
     public class DestinationEntity
     {
         [Key]
