@@ -3,7 +3,7 @@ using aztro_cchardos_back_group2.Domain.Interfaces;
 using aztro_cchardos_back_group2.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace aztro_cchardos_back_group2.Infracstructure.Repositories
+namespace aztro_cchardos_back_group2.Infrastructure.Repositories
 {
     public class TravelPlanRespository(ApplicationDbContext context) : ITravelPlanRepository
     {
