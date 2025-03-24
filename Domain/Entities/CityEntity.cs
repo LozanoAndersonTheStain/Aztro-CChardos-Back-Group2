@@ -47,7 +47,7 @@ namespace aztro_cchardos_back_group2.Domain.Entities
         public virtual ICollection<DestinationEntity> SecondCityDestinations { get; set; } = [];
 
         [Column("travel_plan_id")]
-        public int TravelPlanId { get; set; }
+        public int? TravelPlanId { get; set; }
 
         [ForeignKey("TravelPlanId")]
         public virtual TravelPlanEntity TravelPlan { get; set; } = null!;
