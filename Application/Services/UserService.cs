@@ -46,15 +46,15 @@ namespace aztro_cchardos_back_group2.Application.Services
         public async Task<UserResponse> GetUserByIdAsync(int id)
         {
             Console.WriteLine($"Searching for user with ID: {id}"); //* Imprime el ID del usuario
-            
+
             var user = await _userRepository.GetUserByIdAsync(id); //* Obtiene el usuario por ID
-            
+
             if (user == null) //* Verifica si el usuario no existe
             {
                 Console.WriteLine("User not found in database"); //* Imprime que el usuario no se encuentra en la base de datos
                 throw new Exception("User not found"); //* Lanza una excepción
             }
-            
+
             Console.WriteLine($"User found: {user.Name} (ID: {user.Id})"); //* Imprime el nombre y el ID del usuario
             return _mapper.Map<UserResponse>(user); //* Mapea el usuario a UserResponse
         }
@@ -98,11 +98,37 @@ namespace aztro_cchardos_back_group2.Application.Services
         public async Task<UserResponse> DeleteUserAsync(int id)
         {
             var deleted = await _userRepository.DeleteUserAsync(id); //* Elimina el usuario
-            if (!deleted) 
+            if (!deleted)
             {
                 throw new Exception("User not deleted"); //* Lanza una excepción si no se elimina el usuario
             }
             return new UserResponse { Success = true }; //* Retorna true si se elimina el usuario
+        }
+
+        public async Task<UserResponse> LoginTestUserAsync()
+        {
+            const string testEmail = "test@user.com";
+            const string testPassword = "test123";
+
+            var existingUser = await _userRepository.GetUserByEmailAsync(testEmail); //* Obtiene el usuario por email
+
+            if (existingUser == null)
+            {
+                //* Si el usuario no existe, crea uno de prueba
+                var testUser = new UserEntity
+                {
+                    Name = "Test User",
+                    Email = testEmail,
+                    Password = BCrypt.Net.BCrypt.HashPassword(testPassword),
+                    Role = "TestUser"
+                };
+                existingUser = await _userRepository.CreateUserAsync(testUser); // * Crea el usuario
+            }
+            // * Loguea el usuario de prueba
+            var response = _mapper.Map<UserResponse>(existingUser);
+            response.Success = true;
+            response.Message = "Test user logged in successfully";
+            return response;
         }
     }
 }
