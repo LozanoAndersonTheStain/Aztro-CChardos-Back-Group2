@@ -26,7 +26,7 @@ namespace aztro_cchardos_back_group2.Domain.Entities
         [Required]
         public string Image { get; set; } = "";
 
-        public virtual ICollection<TransportOptionEntity> FlightOptions { get; set; } = [];
-        public virtual ICollection<AccommodationOptionEntity> HotelOptions { get; set; } = [];
+        public virtual ICollection<TransportOptionEntity> TransportOptions { get; set; } = [];
+        public virtual ICollection<AccommodationOptionEntity> AccommodationOptions { get; set; } = [];
     }
 }
