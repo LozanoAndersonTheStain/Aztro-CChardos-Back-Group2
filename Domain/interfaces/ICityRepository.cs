@@ -11,5 +11,6 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
         Task<CityEntity?> GetCityByNameAsync(string name);
         Task<CityEntity> UpdateCityAsync(int id, CityEntity city);
         Task<bool> DeleteCityAsync(int id);
+        Task<bool> AssignTravelPlanAsync(CityEntity city, TravelPlanEntity travelPlan);
     }
 }
