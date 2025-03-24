@@ -41,9 +41,9 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
 
         public async Task<CityEntity> UpdateCityAsync(int id, CityEntity city)
         {
-            var existingCity = await _context.Cities.FindAsync(id) 
+            var existingCity = await _context.Cities.FindAsync(id)
                 ?? throw new Exception("City not found");
-            
+
             existingCity.Description = city.Description;
             _context.Cities.Update(existingCity);
             await _context.SaveChangesAsync();
@@ -52,12 +52,27 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
 
         public async Task<bool> DeleteCityAsync(int id)
         {
-            var city = await _context.Cities.FindAsync(id) 
+            var city = await _context.Cities.FindAsync(id)
                 ?? throw new Exception("City not found");
-            
+
             _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> AssignTravelPlanAsync(CityEntity city, TravelPlanEntity travelPlan)
+        {
+            try
+            {
+                city.TravelPlanId = travelPlan.Id;
+                _context.Cities.Update(city);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
