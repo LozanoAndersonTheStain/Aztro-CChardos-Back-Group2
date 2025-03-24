@@ -13,7 +13,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         private readonly ICombinationService _combinationService = combinationService;
 
         [HttpPost("createAnswer")]
-        [Authorize]
+        [Authorize(Roles = "Admin, User, TestUser")]
         public async Task<IActionResult> CreateAnswer([FromBody] AnswerRequest request)
         {
             try
@@ -28,7 +28,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpGet("getAnswerById/{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAnswerById(int id)
         {
             try
@@ -43,7 +43,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpGet("getUserAnswerId/{userId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAnswersByUserId(int userId)
         {
             try
@@ -58,7 +58,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpGet("getAnswerByQuestion/{questionId}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAnswersByQuestionId(int questionId)
         {
             try
@@ -73,7 +73,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpPost("getMatchingDestinations")]
-        [Authorize]
+        [Authorize(Roles = "Admin, User, TestUser")]
         public async Task<IActionResult> GetMatchingDestinations([FromBody] List<int> answerIds)
         {
             try

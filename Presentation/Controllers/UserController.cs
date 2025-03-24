@@ -142,5 +142,23 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
             }
             return NotFound(response);
         }
+
+        // * Controlador Para Loguear Usuario De Prueba
+        [HttpPost("login-test")]
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginTestUser()
+        {
+            try
+            {
+                var userResponse = await _userService.LoginTestUserAsync();
+                var token = _tokenService.GenerateToken(userResponse.Email, userResponse.Role);
+                userResponse.Token = token;
+                return Ok(userResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

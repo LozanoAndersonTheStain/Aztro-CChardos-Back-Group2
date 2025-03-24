@@ -57,7 +57,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpGet("getQuestionById/{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetQuestionById(int id)
         {
             try
@@ -74,6 +74,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
 
         [HttpGet("getAllQuestions")]
         [Authorize]
+        [Authorize(Roles = "Admin, User, TestUser")]
         public async Task<IActionResult> GetAllQuestions()
         {
             try
@@ -88,7 +89,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpGet("getQuestionsByPaginated")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetQuestionsPaginated([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             try
