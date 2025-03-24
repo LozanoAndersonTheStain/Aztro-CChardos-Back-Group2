@@ -12,7 +12,7 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
         public DbSet<CityEntity> Cities { get; set; } = null!;
         public DbSet<DestinationEntity> Destinations { get; set; } = null!;
         public DbSet<CombinationEntity> Combinations { get; set; } = null!;
-
+        public DbSet<TravelPlanEntity> TravelPlans { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,11 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data
                 .WithMany(c => c.SecondCityDestinations)
                 .HasForeignKey(d => d.SecondCityId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CityEntity>()
+                .HasOne(c => c.TravelPlan)
+                .WithMany()
+                .HasForeignKey(c => c.TravelPlanId);
         }
     }
 }
