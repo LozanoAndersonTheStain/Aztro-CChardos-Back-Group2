@@ -28,6 +28,8 @@ namespace aztro_cchardos_back_group2.Application.Services
 
             var user = _mapper.Map<UserEntity>(userRequest); //* Mapea el UserRequest a UserEntity
             user.Password = BCrypt.Net.BCrypt.HashPassword(userRequest.Password); //* Encripta la contraseña
+            user.Role = "User"; //* Establece el rol del usuario
+
             var createdUser = await _userRepository.CreateUserAsync(user) ?? throw new Exception("User not created"); //* Crea el usuario o lanza una excepción si no se crea el usuario
             var response = _mapper.Map<UserResponse>(createdUser); //* Mapea el usuario creado a UserResponse
             response.Success = true; //* Establece la propiedad Success en true
