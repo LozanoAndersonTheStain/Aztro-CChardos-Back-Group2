@@ -15,17 +15,19 @@ namespace aztro_cchardos_back_group2.Application.DTOs.Requests
 
         [Required]
         public string Lenguage { get; set; } = "";
-        
+
         [Required]
         public string UnmissablePlace { get; set; } = "";
-        
+
         [Required]
         public string Food { get; set; } = "";
-        
+
         [Required]
         public string Image { get; set; } = "";
-        
+
         [Required]
         public string Continent { get; set; } = "";
+
+        public int? TravelPlanId { get; set; }
     }
 }
