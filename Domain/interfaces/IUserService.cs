@@ -14,5 +14,6 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
         Task<List<UserResponse>> GetUsersPaginatedAsync(int page, int pageSize); //* Metodo para obtener un usuario paginado
         Task<UserResponse> UpdateUserAsync(int id, UserRequest request); //* Metodo para actualizar un usuario
         Task<UserResponse> DeleteUserAsync(int id); //* Metodo para eliminar un usuario
+        Task<UserResponse> LoginTestUserAsync(); //* Metodo para loguear un usuario de prueba
     }
 }
