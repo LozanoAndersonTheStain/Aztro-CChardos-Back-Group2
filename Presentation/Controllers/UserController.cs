@@ -32,11 +32,11 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         // * Controlador Para Iniciar Sesion
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginUserAsync([FromQuery] string email, [FromQuery] string password)
+        public async Task<IActionResult> LoginUserAsync([FromBody] LoginRequest request)
         {
             try
             {
-                var userResponse = await _userService.LoginUserAsync(email, password);
+                var userResponse = await _userService.LoginUserAsync(request.Email, request.Password);
                 var token = _tokenService.GenerateToken(userResponse.Email, userResponse.Role);
                 userResponse.Token = token;
                 return Ok(userResponse);
