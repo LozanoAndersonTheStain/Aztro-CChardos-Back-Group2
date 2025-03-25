@@ -23,6 +23,9 @@ namespace aztro_cchardos_back_group2.Domain.Entities
         [Required, StringLength(80, MinimumLength = 3, ErrorMessage = "Password is required")]
         public string Password { get; set; } = "";
 
+        [Column("avatar_url")]
+        public string AvatarUrl { get; set; } = "";
+
         [Column("role")]
         [Required, StringLength(50, MinimumLength = 3, ErrorMessage = "Role is required")]
         public string Role { get; set; } = "";
