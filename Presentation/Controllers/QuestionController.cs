@@ -57,7 +57,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpGet("getQuestionById/{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User, TestUser")]
         public async Task<IActionResult> GetQuestionById(int id)
         {
             try
