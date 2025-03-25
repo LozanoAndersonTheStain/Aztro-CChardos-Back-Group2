@@ -18,7 +18,9 @@ var dbConfig = new DbConfig(); //* Crea un constructor de la aplicación web con
 if (dbConfig.ValidateConnection(out string message)) //* Valida la conexión a la base de datos
 {
     Console.WriteLine(message); //* Imprime el mensaje de validación
-} else {
+}
+else
+{
     Console.WriteLine("Connection string is invalid", message); //* Imprime un mensaje de error si la conexión falla
 }
 
@@ -63,7 +65,6 @@ builder.Services.AddControllers(); //* Agrega los controladores al contenedor de
 //* Registrar DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(dbConfig.ConnectionString));
-builder.Services.AddOpenApi();
 
 //* Registrar AutoMapper
 builder.Services.AddAutoMapper(typeof(UserProfile));
@@ -92,6 +93,19 @@ builder.Services.AddScoped<ITravelPlanRepository, TravelPlanRespository>();
 //* Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(); //* Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
 
+// * Configuración de CORS para permitir solicitudes desde el frontend en desarrollo
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.SetIsOriginAllowed(_ => true)
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials();
+        });
+});
+
 var app = builder.Build(); //* Construye la aplicación web
 
 //* Configure the HTTP request pipeline.
@@ -100,10 +114,10 @@ if (app.Environment.IsDevelopment()) //* Si el entorno es de desarrollo
     app.MapOpenApi(); //* Configura OpenAPI (Swagger) para el entorno de desarrollo
 }
 
-app.UseMiddleware<RoleAuthorizationMiddleware>(); //* Habilita el middleware de autorización de roles
+//* Habilita CORS antes de Authentication y Authorization
+app.UseCors("AllowFrontend");
 
-//* Comment out or remove the following line to disable HTTPS redirection
-//* app.UseHttpsRedirection(); // Redirige las solicitudes HTTP a HTTPS
+app.UseMiddleware<RoleAuthorizationMiddleware>(); //* Habilita el middleware de autorización de roles
 
 app.UseAuthentication(); //* Habilita la autenticación
 app.UseAuthorization(); //* Habilita la autorización
