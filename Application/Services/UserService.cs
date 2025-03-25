@@ -122,6 +122,7 @@ namespace aztro_cchardos_back_group2.Application.Services
                     Name = "Test User",
                     Email = testEmail,
                     Password = BCrypt.Net.BCrypt.HashPassword(testPassword),
+                    AvatarUrl = "https://res.cloudinary.com/dy6jglszo/image/upload/v1742860273/Amadeus/11585001_dpkh0j.jpg",
                     Role = "TestUser"
                 };
                 existingUser = await _userRepository.CreateUserAsync(testUser); // * Crea el usuario
