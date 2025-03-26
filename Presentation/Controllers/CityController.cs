@@ -62,7 +62,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpGet("getAllCities")]
-        [Authorize]
+        [Authorize(Roles = "Admin, User, TestUser")]
         public async Task<IActionResult> GetAllCities()
         {
             try
