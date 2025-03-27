@@ -20,11 +20,15 @@ namespace aztro_cchardos_back_group2.Domain.Entities
 
         [Column("second_city_id")]
         public int SecondCityId { get; set; }
+        public int? TravelPlanId { get; set; }
 
         [ForeignKey("FirstCityId")]
         public virtual CityEntity FirstCity { get; set; } = null!;
 
         [ForeignKey("SecondCityId")]
         public virtual CityEntity SecondCity { get; set; } = null!;
+
+        [ForeignKey(nameof(TravelPlanId))]
+        public TravelPlanEntity? TravelPlan { get; set; }
     }
 }
