@@ -6,21 +6,12 @@ using aztro_cchardos_back_group2.Domain.Entities;
 
 namespace aztro_cchardos_back_group2.Application.Services
 {
-    public class CombinationService : ICombinationService
+    public class CombinationService(ICombinationRepository combinationRepository, IDestinationRepository destinationRepository, ITravelPlanRepository travelPlanRepository, IMapper mapper) : ICombinationService
     {
-        private readonly ICombinationRepository _combinationRepository;
-        private readonly IAnswerRepository _answerRepository;
-        private readonly IMapper _mapper;
-
-        public CombinationService(
-            ICombinationRepository combinationRepository,
-            IAnswerRepository answerRepository,
-            IMapper mapper)
-        {
-            _combinationRepository = combinationRepository;
-            _answerRepository = answerRepository;
-            _mapper = mapper;
-        }
+        private readonly ICombinationRepository _combinationRepository = combinationRepository;
+        private readonly IDestinationRepository _destinationRepository = destinationRepository;
+        private readonly ITravelPlanRepository _travelPlanRepository = travelPlanRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<CombinationResponse> CreateCombinationAsync(CombinationRequest request)
         {
@@ -73,10 +64,15 @@ namespace aztro_cchardos_back_group2.Application.Services
             if (combination == null)
                 return await GetDefaultDestinationsAsync();
 
+            var firstCityTravelPlan = await _travelPlanRepository.GetTravelPlanByDestinationNameAsync(combination.FirstCity.Name);
+            var secondCityTravelPlan = await _travelPlanRepository.GetTravelPlanByDestinationNameAsync(combination.SecondCity.Name);
+
             return new DestinationResponse
             {
                 FirstCity = _mapper.Map<CityResponse>(combination.FirstCity),
                 SecondCity = _mapper.Map<CityResponse>(combination.SecondCity),
+                FirstCityTravelPlan = _mapper.Map<TravelPlanResponse>(firstCityTravelPlan),
+                SecondCityTravelPlan = _mapper.Map<TravelPlanResponse>(secondCityTravelPlan),
                 Success = true
             };
         }
@@ -86,10 +82,16 @@ namespace aztro_cchardos_back_group2.Application.Services
             var defaultCombination = await _combinationRepository.GetDefaultCombinationAsync()
                 ?? throw new Exception("Default combination not found");
 
+            var destination = await _destinationRepository.GetDestinationsByFirstCityIdAsync(defaultCombination.FirstCityId);
+            var firstCityTravelPlan = destination?.FirstOrDefault()?.TravelPlan;
+            var secondCityTravelPlan = destination?.FirstOrDefault()?.TravelPlan;
+
             return new DestinationResponse
             {
                 FirstCity = _mapper.Map<CityResponse>(defaultCombination.FirstCity),
                 SecondCity = _mapper.Map<CityResponse>(defaultCombination.SecondCity),
+                FirstCityTravelPlan = _mapper.Map<TravelPlanResponse>(firstCityTravelPlan),
+                SecondCityTravelPlan = _mapper.Map<TravelPlanResponse>(secondCityTravelPlan),
                 Success = true
             };
         }
