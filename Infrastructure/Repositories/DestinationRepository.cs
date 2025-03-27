@@ -21,6 +21,10 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
             return await _context.Destinations
                 .Include(d => d.FirstCity)
                 .Include(d => d.SecondCity)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.TransportOptions)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.AccommodationOptions)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
@@ -29,13 +33,22 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
             return await _context.Destinations
                 .Include(d => d.FirstCity)
                 .Include(d => d.SecondCity)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.AccommodationOptions)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.TransportOptions)
                 .ToListAsync();
+
         }
 
         public async Task<List<DestinationEntity>> GetDestinationsByFirstCityIdAsync(int cityId)
         {
             return await _context.Destinations
                 .Include(d => d.SecondCity)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.TransportOptions)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.AccommodationOptions)
                 .Where(d => d.FirstCityId == cityId)
                 .ToListAsync();
         }
@@ -44,19 +57,23 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
         {
             return await _context.Destinations
                 .Include(d => d.FirstCity)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.TransportOptions)
+                .Include(d => d.TravelPlan)
+                    .ThenInclude(tp => tp!.AccommodationOptions)
                 .Where(d => d.SecondCityId == cityId)
                 .ToListAsync();
         }
 
         public async Task<DestinationEntity> UpdateDestinationAsync(int id, DestinationEntity destination)
         {
-            var existingDestination = await _context.Destinations.FindAsync(id) 
+            var existingDestination = await _context.Destinations.FindAsync(id)
                 ?? throw new Exception("Destination not found");
-            
+
             existingDestination.Combination = destination.Combination;
             existingDestination.FirstCityId = destination.FirstCityId;
             existingDestination.SecondCityId = destination.SecondCityId;
-            
+
             _context.Destinations.Update(existingDestination);
             await _context.SaveChangesAsync();
             return existingDestination;
@@ -64,9 +81,9 @@ namespace aztro_cchardos_back_group2.Infrastructure.Repositories
 
         public async Task<bool> DeleteDestinationAsync(int id)
         {
-            var destination = await _context.Destinations.FindAsync(id) 
+            var destination = await _context.Destinations.FindAsync(id)
                 ?? throw new Exception("Destination not found");
-            
+
             _context.Destinations.Remove(destination);
             await _context.SaveChangesAsync();
             return true;
