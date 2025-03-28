@@ -1,6 +1,6 @@
 using DotNetEnv;
 
-namespace aztro_cchardos_back_group2.Data.Config
+namespace aztro_cchardos_back_group2.Infrastructure.Data.Config
 {
     public class JwtConfig
     {
