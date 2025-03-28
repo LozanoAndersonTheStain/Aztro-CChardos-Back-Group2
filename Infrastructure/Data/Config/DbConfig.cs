@@ -12,13 +12,13 @@ namespace aztro_cchardos_back_group2.Infrastructure.Data.Configs
             Env.Load(); //* Carga las variables de entorno desde el archivo .env
 
             string dBHost = Environment.GetEnvironmentVariable("DB_HOST") ?? ""; //* Obtiene la URL de la base de datos desde las variables de entorno
-            string dBPort = Environment.GetEnvironmentVariable("DB_PORT") ?? ""; //* Obtiene el puerto de la base de datos desde las variables de entorno
+            // string dBPort = Environment.GetEnvironmentVariable("DB_PORT") ?? ""; //* Obtiene el puerto de la base de datos desde las variables de entorno
             string dBUsername = Environment.GetEnvironmentVariable("DB_USERNAME") ?? ""; //*  Obtiene el nombre de usuario de la base de datos desde las variables de entorno
             string dBPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? ""; //* Obtiene la contraseña de la base de datos desde las variables de entorno
             string dBName = Environment.GetEnvironmentVariable("DB_NAME") ?? ""; //* Obtiene el nombre de la base de datos desde las variables de entorno
 
             //* Crea la cadena de conexión a la base de datos
-            ConnectionString = $"Server={dBHost};Port={dBPort};Username={dBUsername};Password={dBPassword};Database={dBName}";
+            ConnectionString = $"Host={dBHost};Username={dBUsername};Password={dBPassword};Database={dBName}";
         }
 
         //* Método para validar la conexión a la base de datos
