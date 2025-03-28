@@ -1,7 +1,7 @@
 using System.Text;
 using aztro_cchardos_back_group2.Application.Mappings;
 using aztro_cchardos_back_group2.Application.Services;
-using aztro_cchardos_back_group2.Data.Config;
+using aztro_cchardos_back_group2.Infrastructure.Data.Config;
 using aztro_cchardos_back_group2.Domain.Interfaces;
 using aztro_cchardos_back_group2.Infrastructure.Data;
 using aztro_cchardos_back_group2.Infrastructure.Data.Configs;
@@ -34,7 +34,7 @@ if (string.IsNullOrEmpty(jwtConfig.Key) || string.IsNullOrEmpty(jwtConfig.Issuer
 }
 
 //* Convierte la clave JWT en un arreglo de bytes
-var key = Encoding.ASCII.GetBytes(jwtConfig.Key);
+var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 
 //* Configura la autenticación JWT
 builder.Services.AddAuthentication(options =>
@@ -50,8 +50,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true, // * Valida el emisor y la audiencia del token
         ValidateLifetime = true, // * Valida la vigencia del token
         ValidateIssuerSigningKey = true, // * Valida la clave del emisor del token
-        ValidIssuer = jwtConfig.Issuer, // * Establece el emisor válido del token
-        ValidAudience = jwtConfig.Audience, // * Establece la audiencia válida del token
+        ValidIssuer = builder.Configuration["Jwt:Issuer"], // * Establece el emisor válido del token
+        ValidAudience = builder.Configuration["Jwt:Audience"], // * Establece la audiencia válida del token
         IssuerSigningKey = new SymmetricSecurityKey(key) // * Establece la clave de firma del token
     };
 });
