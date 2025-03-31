@@ -1,4 +1,5 @@
 using aztro_cchardos_back_group2.Application.DTOs.Requests;
+using aztro_cchardos_back_group2.Application.Services;
 using aztro_cchardos_back_group2.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +8,10 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TravelPlanController(ITravelPlanService travelPlanService) : ControllerBase
+    public class TravelPlanController(ITravelPlanService travelPlanService, IConfiguration configuration) : ControllerBase
     {
         private readonly ITravelPlanService _travelPlanService = travelPlanService;
-
+        private readonly IConfiguration _configuration = configuration;
 
         [HttpPost("createTravelPlan")]
         [Authorize(Roles = "Admin")]
@@ -117,6 +118,21 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("send-email")]
+        public async Task<IActionResult> SendTravelPlanEmail([FromBody] SendTravelPlanEmailRequest request)
+        {
+            try
+            {
+                var emailService = new EmailService(_configuration);
+                await emailService.SendTravelPlanEmailAsync(request.UserEmail, request.HtmlContent);
+                return Ok(new { success = true, message = "Email sent successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
             }
         }
     }
