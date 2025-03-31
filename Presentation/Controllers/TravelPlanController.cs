@@ -122,6 +122,7 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         }
 
         [HttpPost("send-email")]
+        [Authorize]
         public async Task<IActionResult> SendTravelPlanEmail([FromBody] SendTravelPlanEmailRequest request)
         {
             try
