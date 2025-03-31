@@ -45,6 +45,16 @@ namespace aztro_cchardos_back_group2.Application.Services
             return response; //* Retorna el usuario
         }
 
+        public async Task<UserResponse> LogoutUserAsync(string email)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email) ?? throw new Exception("User not found");
+            var response = _mapper.Map<UserResponse>(user);
+            response.Success = true;
+            response.Message = "Logged out successfully";
+            response.Token = "";
+            return response;
+        }
+
         public async Task<UserResponse> GetUserByIdAsync(int id)
         {
             Console.WriteLine($"Searching for user with ID: {id}"); //* Imprime el ID del usuario

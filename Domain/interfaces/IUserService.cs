@@ -8,6 +8,7 @@ namespace aztro_cchardos_back_group2.Domain.Interfaces
         Task<UserResponse> RegisterUserAsync(UserRequest request); //* Metodo para registrar un usuario 
         Task<UserResponse> LoginUserAsync(string email, string password); //* Metodo para loguear un usuario
         Task<UserResponse> CreateUserAsync(UserRequest request); //* Metodo para crear un usuario
+        Task<UserResponse> LogoutUserAsync(string email); //* Metodo para desloguear un usuario
         Task<UserResponse> GetUserByIdAsync(int id); //* Metodo para obtener un usuario por su id
         Task<List<UserResponse>> GetAllUsersAsync(); //* Metodo para obtener todos los usuarios
         Task<UserResponse> GetUserByEmailAsync(string email); //* Metodo para obtener un usuario por su email

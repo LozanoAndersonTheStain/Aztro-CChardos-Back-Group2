@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using aztro_cchardos_back_group2.Application.DTOs.Requests;
 using aztro_cchardos_back_group2.Application.Services;
 using aztro_cchardos_back_group2.Domain.Interfaces;
@@ -54,6 +55,28 @@ namespace aztro_cchardos_back_group2.Presentation.Controllers
         {
             var response = await _userService.CreateUserAsync(userRequest);
             return CreatedAtAction(nameof(GetUserById), new { id = response.Id }, response);
+        }
+
+        // * Controlador Para Cerrar Sesion
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> LogoutUserAsync()
+        {
+            try
+            {
+                var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return BadRequest("User not authenticated");
+                }
+
+                var response = await _userService.LogoutUserAsync(userEmail);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         //* Controlador Para Obtener Usuarios Por Id
