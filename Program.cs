@@ -11,7 +11,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+DotNetEnv.Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .Build();
 
 var dbConfig = new DbConfig(); //* Crea un constructor de la aplicación web con los argumentos proporcionados
 
@@ -79,6 +88,7 @@ builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IDestinationService, DestinationService>();
 builder.Services.AddScoped<ICombinationService, CombinationService>();
 builder.Services.AddScoped<ITravelPlanService, TravelPlanService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 //* Registrar repositorios
 builder.Services.AddScoped<IUserRepository, UserRepository>(); //* Registra la implementación de IUserRepository
@@ -89,6 +99,7 @@ builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<IDestinationRepository, DestinationRepository>();
 builder.Services.AddScoped<ICombinationRepository, CombinationRepository>();
 builder.Services.AddScoped<ITravelPlanRepository, TravelPlanRespository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 //* Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(); //* Agrega soporte para OpenAPI (Swagger) al contenedor de servicios
