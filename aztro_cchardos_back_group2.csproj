@@ -11,6 +11,8 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <!-- * Dependencia para manejar contraseñas seguras / Encripta las contraseñas -->
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <!-- * Dependencia para generar reportes en formato Excel -->
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
     <!-- * Dependencia para manejar variables de entorno -->
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <!-- * Dependencia para manejar el envío de correos electrónicos -->
