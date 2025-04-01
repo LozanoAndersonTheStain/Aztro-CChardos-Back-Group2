@@ -29,5 +29,7 @@ namespace aztro_cchardos_back_group2.Domain.Entities
         [Column("role")]
         [Required, StringLength(50, MinimumLength = 3, ErrorMessage = "Role is required")]
         public string Role { get; set; } = "";
+
+        public virtual ICollection<AnswerEntity> Answers { get; set; } = [];
     }
 }
