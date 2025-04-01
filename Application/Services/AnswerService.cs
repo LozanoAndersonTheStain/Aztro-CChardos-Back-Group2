@@ -13,12 +13,19 @@ namespace aztro_cchardos_back_group2.Application.Services
 
         public async Task<AnswerResponse> CreateAnswerAsync(AnswerRequest request)
         {
-            var answer = _mapper.Map<AnswerEntity>(request);
-            var createdAnswer = await _answerRepository.CreateAnswerAsync(answer);
-            var response = _mapper.Map<AnswerResponse>(createdAnswer);
-            response.Success = true;
-            response.Message = "Answer created successfully";
-            return response;
+            try
+            {
+                var answer = _mapper.Map<AnswerEntity>(request);
+                var createdAnswer = await _answerRepository.CreateAnswerAsync(answer);
+                var response = _mapper.Map<AnswerResponse>(createdAnswer);
+                response.Success = true;
+                response.Message = "Answer created successfully";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error creating answer: {ex.Message}");
+            }
         }
 
         public async Task<AnswerResponse> GetAnswerByIdAsync(int id)
