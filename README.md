@@ -34,31 +34,6 @@ This backend service is designed to support a modern travel recommendation platf
 ## Project Structure
 The project is organized into several main directories:
 
-📦 Aztro-CChardos-Back-Group2
-├── 📂 Application
-│   ├── 📂 DTOs
-│   ├── 📂 Mappings
-│   └── 📂 Services
-├── 📂 Domain
-│   ├── 📂 Entities
-│   ├── 📂 Enums
-│   └── 📂 Interfaces
-├── 📂 Infrastructure
-│   ├── 📂 Auth
-│   ├── 📂 Data
-│   │   ├── 📂 Config
-│   ├── 📂 Middlewares
-│   ├── 📂 Repositories
-│   └── 📂 Utils
-├── 📂 Docs
-│   ├── 📂 api
-│   ├── 📂 architecture
-│   ├── 📂 guides
-│   └── 📂 technical
-├── 📂 Presentation
-│   └── 📂 Controllers
-└── 📂 Migrations
-
 ### Directory Structure Overview
 - **Application/**: Contains application logic, DTOs, and services
   - `DTOs/`: Data Transfer Objects for API requests/responses
